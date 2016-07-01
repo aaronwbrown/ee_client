@@ -9,6 +9,8 @@ public class NetworkController : MonoBehaviour {
   static SocketIOComponent socket;
   public GameObject playerPrefab;
   public GameObject myPlayer;
+  public GameObject obstacle;
+  public GameObject food;
   public bool disableLandscape = false;
 
   Dictionary<string, GameObject> players;
@@ -46,9 +48,9 @@ public class NetworkController : MonoBehaviour {
     ter.BuildMesh(e.data["terrain"]);
     myPlayer.GetComponent<Rigidbody>().useGravity = true;
     myPlayer.GetComponent<PlayerMovement>().speed = 5;
-    var obs = GetComponent<ObstaclesController>();
+    var obs = obstacle.GetComponent<ObstaclesController>();
     obs.CreateObstacle(e.data["obstacles"]);
-    var foods = GetComponent<FoodController>();
+    var foods = food.GetComponent<FoodsController>();
     foods.CreateFood(e.data["food"]);
   }
 

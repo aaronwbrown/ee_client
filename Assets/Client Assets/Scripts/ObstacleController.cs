@@ -3,26 +3,13 @@ using System.Collections;
 
 public class ObstacleController : MonoBehaviour {
 
-  public int id;
-
-  // Use this for initialization
-  void Start () {
-
-  }
-
-  // Update is called once per frame
-  void Update () {
-
-  }
+  public GameObject obstacle;
 
   void OnTriggerEnter (Collider other) {
-
     if (other.gameObject.CompareTag("Player")) {
-      // pass over id to server
-      // setactive state to false
-      Debug.Log("hit.");
+      Debug.Log("blown to bits by " + this.id);
+      obstacle.GetComponent<KnickKnackNetworkController>().FoodEaten(this.id);
     }
-
   }
 
 }
