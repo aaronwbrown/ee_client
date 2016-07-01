@@ -6,7 +6,7 @@ public class ObstaclesController : MonoBehaviour {
 
   public GameObject obstaclePrefab;
   bool objectState;
-  Dictionary<string, GameObject> obstacles = new Dictionary<string, GameObject>();
+  Dictionary<string, GameObject> obstaclesDict = new Dictionary<string, GameObject>();
 
   public void CreateObstacle (JSONObject obstacles)
   {
@@ -20,17 +20,17 @@ public class ObstaclesController : MonoBehaviour {
       obstacle.transform.parent = transform;
       obstacle.GetComponent<ObstacleController>().id = obstacles[i]["id"].ToString();
 
-      if (!obstacles.ContainsKey("id")) {
-        obstacles.Add(obstacle.id, obstacle);
+      if (!obstaclesDict.ContainsKey("id")) {
+        obstaclesDict.Add(obstacle.GetComponent<ObstacleController>().id, obstacle);
       } else {
-        ToggleState(id);
+        ToggleState(obstacle.GetComponent<ObstacleController>().id);
       }
     }
   }
 
   public void ToggleState (string id) {
-    objectState = obstacles[id].activeSelf;
-    obstacles[id].SetActive(!objectState);
+    objectState = obstaclesDict[id].activeSelf;
+    obstaclesDict[id].SetActive(!objectState);
   }
 
 

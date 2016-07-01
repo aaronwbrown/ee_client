@@ -2,7 +2,7 @@
 using SocketIO;
 using System.Collections;
 
-public class KnickKnackController : MonoBehaviour {
+public class KnickKnackNetworkController : MonoBehaviour {
 
 	// Use this for initialization
   public GameObject food;
@@ -21,17 +21,17 @@ public class KnickKnackController : MonoBehaviour {
 
   // *** FOOD STUFF *** \\
   void ToggleFoodState (SocketIOEvent e) {
-    food.GetComponent<FoodsController>().ToggleState(e);
+    food.GetComponent<FoodsController>().CreateFood(e.data);
   }
-  void FoodEaten (string id) {
-    socket.Emit("eat", id);
+  public void FoodEaten (string id) {
+    socket.Emit("eat", new JSONObject(id));
   }
 
   // *** OBSTACLE STUFF *** \\
   void ToggleObstacleState (SocketIOEvent e) {
-    obstacle.GetComponent<ObstaclesController>().ToggleState(e);
+    obstacle.GetComponent<ObstaclesController>().CreateObstacle(e.data);
   }
-  void ObstacleCollision (string id) {
-    socket.Emit("collision", id);
+  public void ObstacleCollision (string id) {
+    socket.Emit("collision", new JSONObject(id));
   }
 }

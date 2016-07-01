@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class FoodsController : MonoBehaviour {
 
   public GameObject foodPrefab;
-  Dictionary<string, GameObject> foods = new Dictionary<string, GameObject>();
+  bool objectState;
+  Dictionary<string, GameObject> foodsDict = new Dictionary<string, GameObject>();
 
   public void CreateFood (JSONObject foods)
   {
@@ -17,20 +18,20 @@ public class FoodsController : MonoBehaviour {
                                  );
       var food = Instantiate(foodPrefab, position, Quaternion.identity) as GameObject;
       food.transform.parent = transform;
-      food.GetComponent<FoodsController>().id = foods[i]["id"].ToString();
+      food.GetComponent<FoodController>().id = foods[i]["id"].ToString();
 
-      if (!foods.ContainsKey("id")) {
-        foods.Add(food.id, food);
+      if (!foodsDict.ContainsKey("id")) {
+        foodsDict.Add(food.GetComponent<FoodController>().id, food);
       } else {
-        ToggleState(id);
+        ToggleState(food.GetComponent<FoodController>().id);
       }
 
     }
   }
 
-  public void ToggleState (JSONObject data) {
-    objectState = foods[id].activeSelf;
-    foods[id].SetActive(!objectState);
+  public void ToggleState (string id) {
+    objectState = foodsDict[id].activeSelf;
+    foodsDict[id].SetActive(!objectState);
     // also transform position by passing it through create food
   }
 
